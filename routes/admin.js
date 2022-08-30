@@ -1,15 +1,17 @@
 const path = require("path");
 
 const express = require("express");
-const productsController = require("../controllers/products");
+const adminController = require("../controllers/admin");
 
-const router = express.Router();
+const adminRouter = express.Router();
 
 // 재품을 보여주기 디비저장하기 라우터
 // /admin/add-product => GET
-router.get("/add-product", productsController.getAddProduct);
+adminRouter.get("/add-product", adminController.getAddProduct);
+
+adminRouter.get("/products", adminController.getProducts);
 
 // /admin/add-product => POST
-router.post("/add-product", productsController.postAddProduct);
+adminRouter.post("/add-product", adminController.postAddProduct);
 
-module.exports = router;
+module.exports = adminRouter;
