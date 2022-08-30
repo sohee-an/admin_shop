@@ -2,6 +2,14 @@ const path = require("path");
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const p = require("./util/path");
+
+const p2 = path.join(
+  path.dirname(process.mainModule.filename),
+  "data2",
+  "products.json"
+);
+console.log("p2:", p2);
 
 const app = express();
 
