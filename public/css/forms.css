@@ -18,13 +18,6 @@
 }
 
 .form-control input:focus,
-.form-control textarea {
+.form-control textarea:focus {
   outline-color: #00695c;
-}
-
-.form-control input:invalid,
-.form-control textarea {
-  background-color: ivory;
-  border: none;
-  outline: 2px solid red;
 }

@@ -6,7 +6,7 @@ const p = path.join(
   "data",
   "products.json"
 );
-
+// 공통부분
 const getProductsFromFile = (cb) => {
   fs.readFile(p, (err, fileContent) => {
     // 파일에 아무것도 없어서 err나면 [] 리턴
@@ -19,7 +19,7 @@ const getProductsFromFile = (cb) => {
 };
 
 module.exports = class Product {
-  constructor(title, imageUrl, description, price) {
+  constructor(title, imageUrl, price, description) {
     this.title = title;
     this.imageUrl = imageUrl;
     this.description = description;
@@ -27,8 +27,10 @@ module.exports = class Product {
   }
   //function save
   save() {
+    this.id = Math.random().toString();
     getProductsFromFile((products) => {
       products.push(this);
+      console.log(this);
       fs.writeFile(p, JSON.stringify(products), (err) => {
         console.log(err);
       });
@@ -40,5 +42,11 @@ module.exports = class Product {
   //모든 제품 가져오기
   static fetchAll(cb) {
     getProductsFromFile(cb);
+  }
+  static findById(id, cb) {
+    getProductsFromFile((products) => {
+      const productId = products.find((p) => p.id === id);
+      cb(productId);
+    });
   }
 };
