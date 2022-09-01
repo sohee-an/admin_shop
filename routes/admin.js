@@ -1,17 +1,24 @@
-const path = require("path");
+const path = require('path');
 
-const express = require("express");
-const adminController = require("../controllers/admin");
+const express = require('express');
 
-const adminRouter = express.Router();
+const adminController = require('../controllers/admin');
 
-// 재품을 보여주기 디비저장하기 라우터
+const router = express.Router();
+
 // /admin/add-product => GET
-adminRouter.get("/add-product", adminController.getAddProduct);
+router.get('/add-product', adminController.getAddProduct);
 
-adminRouter.get("/products", adminController.getProducts);
+// /admin/products => GET
+router.get('/products', adminController.getProducts);
 
 // /admin/add-product => POST
-adminRouter.post("/add-product", adminController.postAddProduct);
+router.post('/add-product', adminController.postAddProduct);
 
-module.exports = adminRouter;
+router.get('/edit-product/:productId', adminController.getEditProduct);
+
+router.post('/edit-product', adminController.postEditProduct);
+
+router.post('/delete-product', adminController.postDeleteProduct);
+
+module.exports = router;
