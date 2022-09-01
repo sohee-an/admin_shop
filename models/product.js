@@ -1,52 +1,34 @@
-const fs = require("fs");
-const path = require("path");
+const Sequelize = require("sequelize");
 
-const p = path.join(
-  path.dirname(process.mainModule.filename),
-  "data",
-  "products.json"
+const sequelize = require("../util/database");
+
+const Product = sequelize.define(
+  "product",
+  {
+    id: {
+      type: Sequelize.INTEGER,
+      autoIncrement: true,
+      allowNull: false,
+      primaryKey: true,
+    },
+    title: Sequelize.STRING,
+    price: {
+      type: Sequelize.DOUBLE,
+      allowNull: false,
+    },
+    imageUrl: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    description: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    charset: "utf8",
+    collate: "utf8_general_ci", // 한글 저장
+  }
 );
-// 공통부분
-const getProductsFromFile = (cb) => {
-  fs.readFile(p, (err, fileContent) => {
-    // 파일에 아무것도 없어서 err나면 [] 리턴
-    if (err) {
-      cb([]);
-    } else {
-      cb(JSON.parse(fileContent));
-    }
-  });
-};
 
-module.exports = class Product {
-  constructor(title, imageUrl, price, description) {
-    this.title = title;
-    this.imageUrl = imageUrl;
-    this.description = description;
-    this.price = price;
-  }
-  //function save
-  save() {
-    this.id = Math.random().toString();
-    getProductsFromFile((products) => {
-      products.push(this);
-      console.log(this);
-      fs.writeFile(p, JSON.stringify(products), (err) => {
-        console.log(err);
-      });
-    });
-
-    fs.readFile(p, (err, fileContent) => {});
-  }
-
-  //모든 제품 가져오기
-  static fetchAll(cb) {
-    getProductsFromFile(cb);
-  }
-  static findById(id, cb) {
-    getProductsFromFile((products) => {
-      const product = products.find((p) => p.id === id);
-      cb(product);
-    });
-  }
-};
+module.exports = Product;
